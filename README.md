@@ -165,7 +165,17 @@ This app isn’t just built—it’s crafted from late-night insights, lived exp
 
 ---
 
-## 🙋‍♂️ Maintainer
-Mandeep Ray
-🔗 [LinkedIn](https://www.linkedin.com/in/your-username) | [Github](https://your-portfolio.com) | [Twitter](https://twitter.com/your-handle)
+## 🙋‍♂️ Connect with Me
+
+<p align="center">
+  <a href="https://www.linkedin.com/in/mandeep-ray-b5535627b/">
+    <img src="https://img.shields.io/badge/-LinkedIn-blue?style=flat-square&logo=linkedin&logoColor=white" alt="LinkedIn">
+  </a>
+  <a href="https://github.com/Mandy1200">
+    <img src="https://img.shields.io/badge/-GitHub-black?style=flat-square&logo=github&logoColor=white" alt="GitHub">
+  </a>
+  <a href="mailto:mandeepray05@gmail.com">
+    <img src="https://img.shields.io/badge/-Gmail-red?style=flat-square&logo=gmail&logoColor=white" alt="Email">
+  </a>
+</p>
 
