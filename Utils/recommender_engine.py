@@ -13,5 +13,6 @@ def generate_suggestions(model, user_input):
     ]]
 
     distances, indices = model.kneighbors(input_vector, n_neighbors=3)
-    suggestion_db = pd.read_csv("data/suggestions.csv")
+    suggestion_db = pd.read_csv("./Datasets/suggestions.csv")
     return suggestion_db.iloc[indices[0]].to_dict(orient="records")
+
