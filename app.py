@@ -30,7 +30,7 @@ with lzma.open('./Models/LifestylePovertyIndex2.pkl.xz', 'rb') as f:
 st.set_page_config(layout="wide")
 
 # 🎨 Load External Styling
-with open("./styles/styles.css", encoding="utf-8") as f:
+with open("./Styles/styles.css", encoding="utf-8") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
 # 🧬 Lifestyle Mapping Setup
@@ -801,6 +801,7 @@ with st.container():
     display_story_card()
 
 # st.markdown('<a id="top-btn" href="#top">🔝 Top</a>', unsafe_allow_html=True)
+
 
 
 
