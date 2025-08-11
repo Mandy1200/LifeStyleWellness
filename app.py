@@ -22,7 +22,9 @@ from utils.recommender_engine import generate_suggestions
 from utils.google_sheet_handler import save_goal_to_sheet, load_latest_goal_from_sheet
 
 # 📁 Load Burnout Prediction Model
-with open("./Models/LifestylePovertyIndex2.pkl", "rb") as f:
+import lzma
+
+with lzma.open('./Models/LifestylePovertyIndex2.pkl.xz', 'rb') as f:
     model = pickle.load(f)
 
 # 🖥️ Streamlit UI Settings
@@ -488,12 +490,13 @@ if st.session_state.predictions is not None:
 # future trajectory forecasting of wellness scores.
 # -----------------------------------------------------------
 
+import lzma
 import joblib
 
-# 🔁 Cached model loader
 @st.cache_resource
 def load_forecast_model():
-    return joblib.load("./Models/days_trainer.pkl")
+    with lzma.open("./Models/days_trainer.pkl.xz", "rb") as f:
+        return joblib.load(f)
 
 forecast_model = load_forecast_model()
 
@@ -798,5 +801,6 @@ with st.container():
     display_story_card()
 
 # st.markdown('<a id="top-btn" href="#top">🔝 Top</a>', unsafe_allow_html=True)
+
 
 
