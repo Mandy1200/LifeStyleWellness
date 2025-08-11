@@ -5,8 +5,6 @@ scikit-learn
 joblib
 altair
 matplotlib
-pickle
 shap
 plotly
-time
 seaborn
