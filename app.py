@@ -252,7 +252,7 @@ if st.session_state.predictions is not None:
 if burnout is not None:
     st.markdown("""<div class="card"><h3>🌐 Compare Your Lifestyle</h3></div>""", unsafe_allow_html=True)
 
-    compare_df = pd.read_csv("./Dataset/comparisons.csv")
+    compare_df = pd.read_csv("./Datasets/comparisons.csv")
     groups = compare_df['group'].unique()
     selected_group = st.selectbox("Choose a lifestyle group to compare with:", groups)
 
@@ -801,6 +801,7 @@ with st.container():
     display_story_card()
 
 # st.markdown('<a id="top-btn" href="#top">🔝 Top</a>', unsafe_allow_html=True)
+
 
 
 
