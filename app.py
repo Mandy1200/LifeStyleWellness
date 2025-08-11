@@ -309,7 +309,7 @@ if st.session_state.predictions is not None:
     with tab2:
         st.markdown("""<div class="card"><h4>📈 Trendline vs Peers</h4></div>""", unsafe_allow_html=True)
 
-        peer_df = pd.read_csv("./data/comparisons.csv")
+        peer_df = pd.read_csv("./Datasets/comparisons.csv")
         national_avg = peer_df[peer_df["group"] == "National Average"].iloc[0, 1:].values
         selected_peer = peer_df[peer_df["group"] == selected_group].iloc[0, 1:].values
         user_scores = np.array(st.session_state.predictions[:6])
@@ -801,6 +801,7 @@ with st.container():
     display_story_card()
 
 # st.markdown('<a id="top-btn" href="#top">🔝 Top</a>', unsafe_allow_html=True)
+
 
 
 
