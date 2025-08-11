@@ -21,11 +21,11 @@ from datetime import datetime
 from utils.recommender_engine import generate_suggestions
 from utils.google_sheet_handler import save_goal_to_sheet, load_latest_goal_from_sheet
 
-# 📁 Load Burnout Prediction Model
 import lzma
 
 with lzma.open('./Models/LifestylePovertyIndex2.pkl.xz', 'rb') as f:
     model = pickle.load(f)
+
 
 # 🖥️ Streamlit UI Settings
 st.set_page_config(layout="wide")
@@ -192,15 +192,15 @@ with st.container():
     col1, col2, col3 = st.columns([1, 1.3, 1.3])
     age = col1.number_input("Age", min_value=10.0, max_value=60.0, value=20.0, step=0.1)
     sleep_hours = col2.number_input("Sleep Hours", 0.0, 10.0, 6.5, 0.1)
-    study_hours = col3.number_input("Study Hours", 0.0, 10.0, 4.0, 0.1)
+    study_hours = col3.number_input("Study Hours/Work Hours", 0.0, 10.0, 4.0, 0.1)
 
     col4, col5 = st.columns(2)
     screen_time = col4.number_input("Screen Time Post 10PM", 0.0, 10.0, 2.0, 0.1)
     physical_activity = col5.number_input("Physical Activity Minutes", 0.0, 300.0, 30.0, 1.0)
 
     col6, col7 = st.columns(2)
-    mood_score = col6.number_input("Mood Score", 0.0, 10.0, 6.8, 0.1)
-    sleep_debt = col7.number_input("Sleep Debt", 0.0, 10.0, 1.2, 0.1)
+    mood_score = col6.number_input("Mood Score (How's You Are Feeling Today Out Of 10)", 0.0, 10.0, 6.8, 0.1)
+    sleep_debt = col7.number_input("Sleep Debt (rest you still owe your body)", 0.0, 10.0, 1.2, 0.1)
 
     selected_habits = st.multiselect("Lifestyle Type (select one or more)", options=lifestyle_options)
     lifestyle_encoded = lifestyle_map[selected_habits[0]] if selected_habits else 0
@@ -239,7 +239,7 @@ if st.session_state.predictions is not None:
         if burnout is not None:
             display_card("Burnout Risk Score", burnout)
             display_card("Stress Level", stress_level)
-            display_card("Stress per Study Hour", stress_per_hr)
+            display_card("Stress per Study/Work Hour", stress_per_hr)
             display_card("Overall Wellbeing Score", well_score)
             display_card("Sleep Quality Score", sleep_quality)
             display_card("Mental Fatigue Score", mental_fatigue)
@@ -353,7 +353,7 @@ if st.session_state.predictions is not None:
         if burnout is not None:
             display_suggestion_card("🔥 Burnout Risk Score", burnout)
             display_suggestion_card("💢 Stress Level", stress_level)
-            display_suggestion_card("📚 Stress/Study Hour", stress_per_hr)
+            display_suggestion_card("📚 Stress Per Study/Work Hour", stress_per_hr)
     
     with col2:
         if burnout is not None:
@@ -373,7 +373,7 @@ if st.session_state.predictions is not None:
     
         # Define feature names (must match your model training order)
         features = [
-        "Age", "Sleep_Hours", "Study_Hours", "Screen_Time_Post_10PM",
+        "Age", "Sleep_Hours", "Study_Hours/Work_Hours", "Screen_Time_Post_10PM",
         "Physical_Activity_Minutes", "Mood_Score", "Sleep_Debt", "Lifestyle_Encoded"
         ]
     
@@ -400,7 +400,7 @@ if st.session_state.predictions is not None:
             tip_map = {
         "Age": "🎯 Age may influence recovery rate and energy resilience.",
         "Sleep_Hours": "🛌 Increasing sleep hours can reduce mental fatigue and improve overall wellness.",
-        "Study_Hours": "📚 High study hours can increase stress—balance with breaks.",
+        "Study_Hours/Work_Hours": "📚 High study hours can increase stress—balance with breaks.",
         "Screen_Time_Post_10PM": "📱 Reducing late-night screen time improves sleep quality and reduces stress.",
         "Physical_Activity_Minutes": "💪 Regular activity boosts endorphins and reduces burnout risk.",
         "Mood_Score": "😊 A higher mood score often reflects emotional stability and mental resilience.",
@@ -500,6 +500,7 @@ def load_forecast_model():
 
 forecast_model = load_forecast_model()
 
+
 # -----------------------------------------------------------
 # Adaptive Forecast Section: Predicts how scores will evolve
 # over various future days if current lifestyle is maintained.
@@ -542,7 +543,7 @@ if st.session_state.predictions is not None:
         st.stop()
 
     forecast_plot_df = pd.DataFrame(predictions, columns=[
-        "Burnout_Risk_Score", "Stress_Level", "Stress_Per_Study_Hour",
+        "Burnout_Risk_Score", "Stress_Level", "Stress_Per_Study_Hour/Work_Hour",
         "Overall_Wellbeing_Score", "Sleep_Quality_Score", "Mental_Fatigue_Score"
     ])
     forecast_plot_df["Day"] = days
@@ -644,141 +645,141 @@ if st.session_state.predictions is not None:
 # -----------------------------------------------------------
  
     
-    from utils.google_sheet_handler import (
-        save_goal_to_sheet,
-        load_latest_goal_from_sheet,
-        load_all_goals_for_user,
-        delete_latest_goal_for_user
-    )
+#     from utils.google_sheet_handler import (
+#         save_goal_to_sheet,
+#         load_latest_goal_from_sheet,
+#         load_all_goals_for_user,
+#         delete_latest_goal_for_user
+#     )
     
-    # 🆔 User ID Setup
-    def get_or_create_user_id():
-        if "user_id" in st.session_state:
-            return st.session_state.user_id
+#     # 🆔 User ID Setup
+#     def get_or_create_user_id():
+#         if "user_id" in st.session_state:
+#             return st.session_state.user_id
     
-        query_params = st.query_params
-        cookie_id = query_params.get("user")
+#         query_params = st.query_params
+#         cookie_id = query_params.get("user")
     
-        if cookie_id:
-            user_id = cookie_id
-        else:
-            user_id = "user_" + str(uuid.uuid4())[:8]
-            st.query_params["user"] = user_id
+#         if cookie_id:
+#             user_id = cookie_id
+#         else:
+#             user_id = "user_" + str(uuid.uuid4())[:8]
+#             st.query_params["user"] = user_id
     
-        st.session_state.user_id = user_id
-        return user_id
+#         st.session_state.user_id = user_id
+#         return user_id
     
-    user_id = get_or_create_user_id()
+#     user_id = get_or_create_user_id()
 
-# -----------------------------------------------------------
-# Goal Data Management: Includes goal save, load, and session 
-# tracking across app reruns.
-# -----------------------------------------------------------
+# # -----------------------------------------------------------
+# # Goal Data Management: Includes goal save, load, and session 
+# # tracking across app reruns.
+# # -----------------------------------------------------------
 
     
-    def save_recovery_goal(user_id: str, goal_data: dict):
-        goal_data["user_id"] = user_id
-        goal_data["start_time"] = datetime.now().isoformat()
-        goal_data["timestamp"] = datetime.now().isoformat()
-        save_goal_to_sheet(user_id, goal_data)
+#     def save_recovery_goal(user_id: str, goal_data: dict):
+#         goal_data["user_id"] = user_id
+#         goal_data["start_time"] = datetime.now().isoformat()
+#         goal_data["timestamp"] = datetime.now().isoformat()
+#         save_goal_to_sheet(user_id, goal_data)
     
-    def load_latest_recovery_goal(user_id: str):
-        return load_latest_goal_from_sheet(user_id)
+#     def load_latest_recovery_goal(user_id: str):
+#         return load_latest_goal_from_sheet(user_id)
     
-    # 🧠 Store session inputs
-    session_data = {
-        "timestamp": datetime.now().isoformat(),
-        "burnout": float(burnout),
-        "sleep": float(st.session_state.get("sleep", 0)),
-        "mood": float(st.session_state.get("mood", 0)),
-        "workload": float(st.session_state.get("workload", 0))
-    }
-    if "history" not in st.session_state:
-        st.session_state["history"] = []
-    st.session_state["history"].append(session_data)
+#     # 🧠 Store session inputs
+#     session_data = {
+#         "timestamp": datetime.now().isoformat(),
+#         "burnout": float(burnout),
+#         "sleep": float(st.session_state.get("sleep", 0)),
+#         "mood": float(st.session_state.get("mood", 0)),
+#         "workload": float(st.session_state.get("workload", 0))
+#     }
+#     if "history" not in st.session_state:
+#         st.session_state["history"] = []
+#     st.session_state["history"].append(session_data)
     
-# -----------------------------------------------------------
-# Goal Tracker UI: Displays current progress, handles goal
-# creation, deletion, and guidance based on performance.
-# -----------------------------------------------------------
+# # -----------------------------------------------------------
+# # Goal Tracker UI: Displays current progress, handles goal
+# # creation, deletion, and guidance based on performance.
+# # -----------------------------------------------------------
 
-    st.markdown("""<div class="card"><h3>🧭 Recovery Goal Tracker</h3></div>""", unsafe_allow_html=True)
+#     st.markdown("""<div class="card"><h3>🧭   </h3></div>""", unsafe_allow_html=True)
     
-    # Load goal
-    if "recovery_goal" not in st.session_state:
-        stored_goal = load_latest_recovery_goal(user_id)
-        if stored_goal:
-            st.session_state.recovery_goal = stored_goal
+#     # Load goal
+#     if "recovery_goal" not in st.session_state:
+#         stored_goal = load_latest_recovery_goal(user_id)
+#         if stored_goal:
+#             st.session_state.recovery_goal = stored_goal
     
-    # --- Set or Track ---
-    if "recovery_goal" not in st.session_state:
-        with st.form("set_recovery_goal"):
-            st.markdown("🎯 Set a burnout recovery goal:")
-            target = st.slider("Target Burnout Score", 0.0, burnout, burnout - 1.0, step=0.1)
-            duration = st.number_input("Days to achieve", min_value=1, max_value=30, value=7)
-            submit = st.form_submit_button("Set Goal")
+#     # --- Set or Track ---
+#     if "recovery_goal" not in st.session_state:
+#         with st.form("set_recovery_goal"):
+#             st.markdown("🎯 Set a burnout recovery goal:")
+#             target = st.slider("Target Burnout Score", 0.0, burnout, burnout - 1.0, step=0.1)
+#             duration = st.number_input("Days to achieve", min_value=1, max_value=30, value=7)
+#             submit = st.form_submit_button("Set Goal")
     
-            if submit:
-                with st.spinner("🎯 Saving your goal..."):
-                    st.toast("🎯 Goal Saved!", icon="💾")
-                    st.session_state.recovery_goal = {
-                        "start": burnout,
-                        "target": target,
-                        "days": duration,
-                        "start_time": datetime.now().isoformat()
-                    }
-                    save_recovery_goal(user_id, st.session_state.recovery_goal)
-                    time.sleep(2)
-                    st.rerun()
-    else:
-        goal = st.session_state.recovery_goal
-        start = float(goal["start"])
-        target = float(goal["target"])
-        days = int(goal["days"])
-        start_time = pd.to_datetime(goal["start_time"])
-        days_passed = (datetime.now() - start_time).days
+#             if submit:
+#                 with st.spinner("🎯 Saving your goal..."):
+#                     st.toast("🎯 Goal Saved!", icon="💾")
+#                     st.session_state.recovery_goal = {
+#                         "start": burnout,
+#                         "target": target,
+#                         "days": duration,
+#                         "start_time": datetime.now().isoformat()
+#                     }
+#                     save_recovery_goal(user_id, st.session_state.recovery_goal)
+#                     time.sleep(2)
+#                     st.rerun()
+#     else:
+#         goal = st.session_state.recovery_goal
+#         start = float(goal["start"])
+#         target = float(goal["target"])
+#         days = int(goal["days"])
+#         start_time = pd.to_datetime(goal["start_time"])
+#         days_passed = (datetime.now() - start_time).days
     
-        progress = 100 * max(0, start - burnout) / max(1e-5, start - target)
-        st.markdown(f"🧗 Goal: {start:.1f} → {target:.1f} in {days} days")
-        st.markdown(f"⏳ Day {days_passed}/{days}")
-        st.progress(min(progress / 100, 1.0))
+#         progress = 100 * max(0, start - burnout) / max(1e-5, start - target)
+#         st.markdown(f"🧗 Goal: {start:.1f} → {target:.1f} in {days} days")
+#         st.markdown(f"⏳ Day {days_passed}/{days}")
+#         st.progress(min(progress / 100, 1.0))
     
-        if burnout <= target:
-            st.success("🎉 Goal Achieved!")
-        elif days_passed >= days:
-            st.error("⏱️ Time's up — consider resetting your goal.")
-        elif progress < 30:
-            st.warning("📉 Slow start — try small lifestyle shifts.")
-        else:
-            st.info("✅ You're on track — keep going!")
+#         if burnout <= target:
+#             st.success("🎉 Goal Achieved!")
+#         elif days_passed >= days:
+#             st.error("⏱️ Time's up — consider resetting your goal.")
+#         elif progress < 30:
+#             st.warning("📉 Slow start — try small lifestyle shifts.")
+#         else:
+#             st.info("✅ You're on track — keep going!")
     
-# -----------------------------------------------------------
-# Goal Reset/Delete Feature: Allows the user to reset or delete
-# their recovery goal via UI confirmation.
-# -----------------------------------------------------------
+# # -----------------------------------------------------------
+# # Goal Reset/Delete Feature: Allows the user to reset or delete
+# # their recovery goal via UI confirmation.
+# # -----------------------------------------------------------
 
-        if st.button("🗑️ Reset/Delete Goal"):
-            confirmed = st.radio("Are you sure?", ["No", "Yes"], index=0)
-            if confirmed == "Yes":
-                success = delete_latest_goal_for_user(user_id)
-                if success:
-                    st.session_state.pop("recovery_goal", None)
-                    st.success("✅ Goal deleted.")
-                    st.rerun()
-                else:
-                    st.error("⚠️ No goal found to delete.")
+#         if st.button("🗑️ Reset/Delete Goal"):
+#             confirmed = st.radio("Are you sure?", ["No", "Yes"], index=0)
+#             if confirmed == "Yes":
+#                 success = delete_latest_goal_for_user(user_id)
+#                 if success:
+#                     st.session_state.pop("recovery_goal", None)
+#                     st.success("✅ Goal deleted.")
+#                     st.rerun()
+#                 else:
+#                     st.error("⚠️ No goal found to delete.")
     
-# -----------------------------------------------------------
-# Goal History Viewer: Shows all past goals for the user 
-# retrieved from persistent storage (Google Sheets).
-# -----------------------------------------------------------
+# # -----------------------------------------------------------
+# # Goal History Viewer: Shows all past goals for the user 
+# # retrieved from persistent storage (Google Sheets).
+# # -----------------------------------------------------------
 
-    with st.expander("📜 View All Past Goals", expanded=False):
-        all_goals_df = load_all_goals_for_user(user_id)
-        if not all_goals_df.empty:
-            st.dataframe(all_goals_df, height=250, use_container_width=True)
-        else:
-            st.info("No past goals found.")
+#     with st.expander("📜 View All Past Goals", expanded=False):
+#         all_goals_df = load_all_goals_for_user(user_id)
+#         if not all_goals_df.empty:
+#             st.dataframe(all_goals_df, height=250, use_container_width=True)
+#         else:
+#             st.info("No past goals found.")
 
         
          
@@ -801,6 +802,5 @@ with st.container():
     display_story_card()
 
 # st.markdown('<a id="top-btn" href="#top">🔝 Top</a>', unsafe_allow_html=True)
-
 
 
