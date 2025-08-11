@@ -19,7 +19,6 @@ from datetime import datetime
 
 # 🔧 Internal Utility Imports
 from Utils.recommender_engine import generate_suggestions
-from utils.google_sheet_handler import save_goal_to_sheet, load_latest_goal_from_sheet
 
 import lzma
 
@@ -802,6 +801,7 @@ with st.container():
     display_story_card()
 
 # st.markdown('<a id="top-btn" href="#top">🔝 Top</a>', unsafe_allow_html=True)
+
 
 
 
