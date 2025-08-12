@@ -28,7 +28,7 @@ Your life leaves clues—your **sleep**, **stress**, **mood**, **activity**, and
 | `Models/`                | 📁 Trained ML models (not uploaded due to size; see note below)         |
 | `data/`                  | 📊 Benchmark datasets for comparison, forecasts, recovery goals         |
 | `styles/`                | 🎨 Custom CSS for styling and branding                                  |
-| `utils/`                 | 🛠 Utility modules (recommendation engine, Google Sheets, etc.)         |
+| `utils/`                 | 🛠 Utility modules (recommendation engine)         |
 
 ---
 
@@ -38,8 +38,7 @@ Your life leaves clues—your **sleep**, **stress**, **mood**, **activity**, and
 - **Backend**: Python 3.10+
 - **Machine Learning**: Scikit-Learn , Random Forest Regressors, NearestNeighbors , MultiOutputRegressor ,  SHAP (Explainable AI), Joblib models
 - **Visualization**: Plotly, Altair, Matplotlib
-- **Data Management**: Google Sheets API (for multi-user goal tracking)
-- **Deployment**: Compatible with Streamlit Cloud or local setup
+- **Deployment**: Compatible with Streamlit Cloud 
 
 ---
 
@@ -103,7 +102,6 @@ Track your burnout recovery goals with:
 - Smart goal setting (custom burnout targets + deadlines)
 - Auto-progress tracking with visual indicators
 - Auto-reflection system with session history
-- One-click reset & full past goal history via Google Sheets
 
 ---
 
