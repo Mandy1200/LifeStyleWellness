@@ -1,3 +1,8 @@
+# This READ.me is not fully updated w.r.t. the deployed app
+
+
+
+
 # 🧠 Lifestyle Wellness & Burnout Prediction App
 
 [![Hugging Face Spaces](https://img.shields.io/badge/HuggingFace-Deployed-yellow?logo=huggingface)](#)
