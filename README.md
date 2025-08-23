@@ -3,7 +3,7 @@
 
 
 
-# 🧠 Lifestyle Wellness & Burnout Prediction App
+# 🧠 Claravita
 
 [![Hugging Face Spaces](https://img.shields.io/badge/HuggingFace-Deployed-yellow?logo=huggingface)](#)
 [![Python](https://img.shields.io/badge/Built_with-Python_3.10-blue?logo=python)](#)
@@ -24,6 +24,10 @@ Your life leaves clues—your **sleep**, **stress**, **mood**, **activity**, and
 > 🌱 “Let your data whisper truths. Let your habits shape healing.”
 
 ---
+
+Project Link : https://wellnesspredictor.streamlit.app/
+
+Demo link : https://drive.google.com/file/d/1EQ9oInLqA_UwrnioxuD4o7bATXx5-ZnG/view?usp=sharing
 
 ## 📦 Project Structure
 
